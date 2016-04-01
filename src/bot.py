@@ -7,25 +7,34 @@ from pprint import pprint
 import time
 import tweepy
 
-bot = telepot.Bot(BOT_TOKEN)
+class TeleTweetBot:
 
-def handle_message(message):
-    content_type, chat_type, chat_id = telepot.glance(message)
+    def __init__(self):
+        bot = telepot.Bot(BOT_TOKEN)
+        bot.notifyOnMessage(self.handle_message)
 
-    if content_type == 'text':
+    def handle_message(self, message):
+        content_type, chat_type, chat_id = telepot.glance(message)
 
-        print(message['text'])
-        tweet_message(message['text'])
+        if content_type == 'text':
+            print(message['text'])
+            #tweet_message(message['text'])
 
-bot.notifyOnMessage(handle_message)
+    def tweet_message(self, text):
+        auth = tweepy.OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
+        auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
 
-def tweet_message(text):
-    auth = tweepy.OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
-    auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
+        api = tweepy.API(auth)
 
-    api = tweepy.API(auth)
+        api.update_status(text)
 
-    api.update_status(text)
 
-while 1:
-    time.sleep(10)
+def main():
+    tele_tweet_bot = TeleTweetBot()
+    while 1:
+        time.sleep(10)
+
+if __name__ == '__main__':
+    main()
+
+
