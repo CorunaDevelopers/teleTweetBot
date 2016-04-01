@@ -1,13 +1,13 @@
 # consumer key KZInF8Tzh4FuiffKBb3Qt5k4M
 # consumer secrete TEekW9OkM5YmPpBdj1gIZOvBX4Esfu1YM6cZlkSq22iDC98Rmx
 
-
+from config import *
 import telepot
 from pprint import pprint
 import time
 import tweepy
 
-bot = telepot.Bot('209263414:AAEesdwt-XtW_XfQhIPp0MHeuG4xZSOafoo')
+bot = telepot.Bot(BOT_TOKEN)
 
 def handle_message(message):
     content_type, chat_type, chat_id = telepot.glance(message)
@@ -20,12 +20,8 @@ def handle_message(message):
 bot.notifyOnMessage(handle_message)
 
 def tweet_message(text):
-    consumer_key = 'KZInF8Tzh4FuiffKBb3Qt5k4M'
-    consumer_secret = 'TEekW9OkM5YmPpBdj1gIZOvBX4Esfu1YM6cZlkSq22iDC98Rmx'
-    access_token = '715949543767060480-J3givPfWWxDueUSsOVBC5cklkkkfdsr'
-    access_secret = 'Ftm6AjGGw8XOGG5coemPmoMWlzbOKWZDgdhzFxeSqLLbz'
-    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-    auth.set_access_token(access_token, access_secret)
+    auth = tweepy.OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
+    auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
 
     api = tweepy.API(auth)
 
