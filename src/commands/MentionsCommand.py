@@ -1,12 +1,16 @@
 #!/usr/bin/env python
 # _*_ coding:utf-8 _*
 
-class MentionsCommand:
+from handlers.ExceptionHandler import ExceptionHandler
 
-    def __init__(self, twitterApi, bot):
-        self.twitterApi = twitterApi
+
+class MentionsCommand:
+    def __init__(self, twitter_api, bot):
+        self.twitterApi = twitter_api
         self.bot = bot
 
-    def proccess_message(self, message):
-        pass
-
+    def process_message(self, message):
+        try:
+            pass
+        except Exception as ex:
+            ExceptionHandler.handle_exception(ex, False)

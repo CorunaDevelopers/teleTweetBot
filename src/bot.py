@@ -8,46 +8,73 @@ import time
 
 import telepot
 
-from config import *
-from api.TwitterAPI import TwitterAPI
-from commands.TwitterCommand import  TwitterCommand
-from commands.StartCommand import  StartCommand
-from commands.StopCommand import  StopCommand
+from commands.StartCommand import StartCommand
+from commands.StopCommand import StopCommand
+from commands.TwitterCommand import TwitterCommand
+from config import BOT_TOKEN
+from handlers.ExceptionHandler import ExceptionHandler
+from handlers.TweepyHandler import TweepyHandler
 
 
 class TeleTweetBot:
-
     def __init__(self):
-        twitteAPI = TwitterAPI(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
-
         self.users = []
 
+        self.twitterAPI = self.__get_tweepy_instance()
+
         self.commands = [
-        TwitterCommand(twitteAPI),
-        StartCommand(self.users),
-        StopCommand(self.users),
+            TwitterCommand(self.twitterAPI),
+            StartCommand(self.users),
+            StopCommand(self.users),
         ]
 
-        bot = telepot.Bot(BOT_TOKEN)
-        bot.notifyOnMessage(self.handle_message)
+        self.bot = self.__get_telepot_instance()
+        self.bot.notifyOnMessage(self.__handle_message)
 
-    def handle_message(self, message):
-        content_type, chat_type, chat_id = telepot.glance(message)
+    @staticmethod
+    def __get_tweepy_instance():
+        """
+        Gets an instance of Tweepy API.
+        :return:
+        """
+        try:
+            return TweepyHandler()
+        except Exception as ex:
+            ExceptionHandler.handle_exception(ex, True)
 
-        if content_type == 'text':
-            print(message['text'])
-            userId = message['from']['id']
-            for command in self.commands:
-                response = command.proccess_message(message)
-                if response:
-                    bot.sendMessage(userId, response)
+    @staticmethod
+    def __get_telepot_instance():
+        """
+        Gets an instance of Telepot bot.
+        :return:
+        """
+        try:
+            return telepot.Bot(BOT_TOKEN)
+        except Exception as ex:
+            ExceptionHandler.handle_exception(ex, True)
 
+    def __handle_message(self, message):
+        """
+        Handles a message sent from telegram.
+        :param message:
+        :return:
+        """
+        try:
+            content_type, chat_type, chat_id = telepot.glance(message)
 
-def main():
-    TeleTweetBot()
-    while 1:
-        time.sleep(10)
+            if content_type == 'text':
+                print(message['text'])
+                user_id = message['from']['id']
+
+                for command in self.commands:
+                    response = command.process_message(message)
+                    if response:
+                        self.bot.sendMessage(user_id, response)
+        except Exception as ex:
+            ExceptionHandler.handle_exception(ex, False)
 
 
 if __name__ == '__main__':
-    main()
+    TeleTweetBot()
+    while 1:
+        time.sleep(10)
