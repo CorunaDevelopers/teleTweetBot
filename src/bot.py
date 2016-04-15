@@ -11,6 +11,8 @@ import telepot
 from config import *
 from api.TwitterAPI import TwitterAPI
 from commands.TwitterCommand import  TwitterCommand
+from commands.StartCommand import  StartCommand
+from commands.StopCommand import  StopCommand
 
 
 class TeleTweetBot:
@@ -18,7 +20,14 @@ class TeleTweetBot:
     def __init__(self):
         twitteAPI = TwitterAPI(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
 
-        self.commands = [TwitterCommand(twitteAPI)]
+        self.users = []
+
+        self.commands = [
+        TwitterCommand(twitteAPI),
+        StartCommand(self.users),
+        StopCommand(self.users),
+        ]
+
         bot = telepot.Bot(BOT_TOKEN)
         bot.notifyOnMessage(self.handle_message)
 
@@ -27,8 +36,11 @@ class TeleTweetBot:
 
         if content_type == 'text':
             print(message['text'])
+            userId = message['from']['id']
             for command in self.commands:
-                command.proccess_message(message)
+                response = command.proccess_message(message)
+                if response:
+                    bot.sendMessage(userId, response)
 
 
 def main():

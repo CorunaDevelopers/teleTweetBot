@@ -12,4 +12,4 @@ class TwitterCommand:
 
         if text.startswith('/tweet '):
             print 'tweet'
-            self.api.stweet_message(text.replace('/tweet ', ''))
+            self.api.tweet_message(text.replace('/tweet ', ''))
