@@ -18,15 +18,15 @@ class TweetCommand(object):
         text = message['text'].encode('utf-8')
         print text
 
-        if text.startsWith('/tweet '):
+        if text.startswith('/tweet '):
             print 'tweet'
-            self.tweet_message(text.replate('/tweet ', ''))
+            self.tweet_message(text.replace('/tweet ', ''))
 
-    def tweet_message(self, message):    
+    def tweet_message(self, message):
         auth = tweepy.OAuthHandler(self.consummer_key, self.consummer_secret)
         auth.set_access_token(self.access_key, self.access_secret)
 
         api = tweepy.API(auth)
 
         api.update_status(message)
-        
+
