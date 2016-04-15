@@ -5,11 +5,12 @@ from config import *
 import telepot
 from pprint import pprint
 import time
-import tweepy
+from commands.TweetCommand import TweetCommand
 
 class TeleTweetBot:
 
     def __init__(self):
+        self.commands = [ TweetCommand(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET) ]
         bot = telepot.Bot(BOT_TOKEN)
         bot.notifyOnMessage(self.handle_message)
 
@@ -18,15 +19,8 @@ class TeleTweetBot:
 
         if content_type == 'text':
             print(message['text'])
-            self.tweet_message(message['text'])
-
-    def tweet_message(self, text):
-        auth = tweepy.OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
-        auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
-
-        api = tweepy.API(auth)
-
-        api.update_status(text)
+            for command in self.commands:
+                command.proccessMessage(message)
 
 
 def main():
