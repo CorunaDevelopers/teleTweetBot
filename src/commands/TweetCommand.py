@@ -13,7 +13,7 @@ class TweetCommand(object):
         self.access_key = access_key
         self.access_secret = access_secret
 
-    def proccessMessage(self, message):
+    def proccess_message(self, message):
         text = message['text'].encode('utf-8')
         print text
 

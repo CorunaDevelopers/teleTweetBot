@@ -26,7 +26,7 @@ class TeleTweetBot:
         if content_type == 'text':
             print(message['text'])
             for command in self.commands:
-                command.proccessMessage(message)
+                command.proccess_message(message)
 
 
 def main():
