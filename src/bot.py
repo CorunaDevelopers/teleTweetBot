@@ -18,7 +18,7 @@ class TeleTweetBot:
 
         if content_type == 'text':
             print(message['text'])
-            #tweet_message(message['text'])
+            self.tweet_message(message['text'])
 
     def tweet_message(self, text):
         auth = tweepy.OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
