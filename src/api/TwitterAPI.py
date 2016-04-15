@@ -4,27 +4,16 @@
 import tweepy
 
 
-class TweetCommand(object):
+class TwitterAPI(object):
 
     def __init__(self, consummer_key, consummer_secret, access_key, access_secret):
-        super(TweetCommand, self).__init__()
         self.consummer_key = consummer_key
         self.consummer_secret = consummer_secret
         self.access_key = access_key
         self.access_secret = access_secret
-
-    def proccess_message(self, message):
-        text = message['text'].encode('utf-8')
-        print text
-
-        if text.startswith('/tweet '):
-            print 'tweet'
-            self.tweet_message(text.replace('/tweet ', ''))
-
-    def tweet_message(self, message):
         auth = tweepy.OAuthHandler(self.consummer_key, self.consummer_secret)
         auth.set_access_token(self.access_key, self.access_secret)
+        self.api = tweepy.API(auth)
 
-        api = tweepy.API(auth)
-
-        api.update_status(message)
+    def tweet_message(self, message):
+        self.api.update_status(message)

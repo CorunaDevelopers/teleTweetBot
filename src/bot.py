@@ -8,15 +8,17 @@ import time
 
 import telepot
 
-from commands.TweetCommand import TweetCommand
 from config import *
+from api.TwitterAPI import TwitterAPI
+from commands.TwitterCommand import  TwitterCommand
 
 
 class TeleTweetBot:
 
     def __init__(self):
-        self.commands = [
-            TweetCommand(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)]
+        twitteAPI = TwitterAPI(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
+
+        self.commands = [TwitterCommand(twitteAPI)]
         bot = telepot.Bot(BOT_TOKEN)
         bot.notifyOnMessage(self.handle_message)
 
