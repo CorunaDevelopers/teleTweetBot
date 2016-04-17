@@ -8,9 +8,9 @@ class TwitterCommand:
     def __init__(self, api):
         self.api = api
 
-    def process_message(self, message):
+    def process_message(self, telegram_response):
         try:
-            text = message['text']
+            text = telegram_response.message.text
 
             if text.startswith('/tweet '):
                 print 'tweet'

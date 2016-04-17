@@ -53,16 +53,16 @@ class TeleTweetBot:
         """
         try:
             content_type, chat_type, chat_id = telepot.glance(message)
-            msg = TelegramResponse(content_type, chat_type, chat_id, message)
+            telegram_response = TelegramResponse(content_type, chat_type, chat_id, message)
 
             # TODO: Do an enum for the content types
             if content_type == 'text':
-                print msg.message.text
-                user_id = msg.message.message_from.id
+                print telegram_response.message.text
+                user_id = telegram_response.message.message_from.id
 
-            #TODO: Change the command pattern for a strategy
+            # TODO: Change the command pattern for a strategy
             for command in self.commands:
-                response = command.process_message(msg)
+                response = command.process_message(telegram_response)
                 if response:
                     self.bot.sendMessage(user_id, response)
                     break
