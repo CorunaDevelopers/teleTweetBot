@@ -12,9 +12,12 @@ from handlers.ExceptionHandler import ExceptionHandler
 
 class TweepyHandler(object):
     def __init__(self):
-        auth = tweepy.OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
-        auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
-        self.api = tweepy.API(auth)
+        try:
+            auth = tweepy.OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
+            auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
+            self.api = tweepy.API(auth)
+        except Exception as ex:
+            ExceptionHandler.handle_exception(ex, False)
 
     def tweet_message(self, message):
         """

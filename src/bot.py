@@ -20,27 +20,18 @@ class TeleTweetBot:
     def __init__(self):
         self.users = []
 
-        self.twitterAPI = self.__get_tweepy_instance()
+        # Twitter
+        self.twitterAPI = TweepyHandler()
+
+        # Telegram
+        self.bot = self.__get_telepot_instance()
+        self.bot.notifyOnMessage(self.__handle_message)
 
         self.commands = [
             TwitterCommand(self.twitterAPI),
             StartCommand(self.users),
             StopCommand(self.users),
         ]
-
-        self.bot = self.__get_telepot_instance()
-        self.bot.notifyOnMessage(self.__handle_message)
-
-    @staticmethod
-    def __get_tweepy_instance():
-        """
-        Gets an instance of Tweepy API.
-        :return:
-        """
-        try:
-            return TweepyHandler()
-        except Exception as ex:
-            ExceptionHandler.handle_exception(ex, True)
 
     @staticmethod
     def __get_telepot_instance():
