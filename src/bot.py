@@ -14,6 +14,7 @@ from commands.TwitterCommand import TwitterCommand
 from config import BOT_TOKEN
 from handlers.ExceptionHandler import ExceptionHandler
 from handlers.TweepyHandler import TweepyHandler
+from src.domain.TelegramResponse import TelegramResponse
 
 
 class TeleTweetBot:
@@ -52,15 +53,20 @@ class TeleTweetBot:
         """
         try:
             content_type, chat_type, chat_id = telepot.glance(message)
+            msg = TelegramResponse(content_type, chat_type, chat_id, message)
 
+            # TODO: Do an enum for the content types
             if content_type == 'text':
-                print(message['text'])
-                user_id = message['from']['id']
+                print msg.message.text
+                user_id = msg.message.message_from.id
 
-                for command in self.commands:
-                    response = command.process_message(message)
-                    if response:
-                        self.bot.sendMessage(user_id, response)
+            #TODO: Change the command pattern for a strategy
+            for command in self.commands:
+                response = command.process_message(msg)
+                if response:
+                    self.bot.sendMessage(user_id, response)
+                    break
+
         except Exception as ex:
             ExceptionHandler.handle_exception(ex, False)
 
