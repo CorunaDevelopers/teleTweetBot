@@ -8,9 +8,7 @@ import time
 
 import telepot
 
-from commands.StartCommand import StartCommand
-from commands.StopCommand import StopCommand
-from commands.TwitterCommand import TwitterCommand
+from commands.MessageHandler import process_message
 from config import BOT_TOKEN
 from handlers.ExceptionHandler import ExceptionHandler
 from handlers.TweepyHandler import TweepyHandler
@@ -28,11 +26,11 @@ class TeleTweetBot:
         self.bot = self.__get_telepot_instance()
         self.bot.notifyOnMessage(self.__handle_message)
 
-        self.commands = [
-            TwitterCommand(self.twitterAPI),
-            StartCommand(self.users),
-            StopCommand(self.users),
-        ]
+        # self.commands = [
+        #     TwitterCommand(self.twitterAPI),
+        #     StartCommand(self.users),
+        #     StopCommand(self.users),
+        # ]
 
     @staticmethod
     def __get_telepot_instance():
@@ -53,19 +51,22 @@ class TeleTweetBot:
         """
         try:
             content_type, chat_type, chat_id = telepot.glance(message)
-            telegram_response = TelegramResponse(content_type, chat_type, chat_id, message)
+            telegram_message = TelegramResponse(content_type, chat_type, chat_id, message)
 
             # TODO: Do an enum for the content types
             if content_type == 'text':
-                print telegram_response.message.text
-                user_id = telegram_response.message.message_from.id
+                print telegram_message.message.text
+                user_id = telegram_message.message.message_from.id
 
-            # TODO: Change the command pattern for a strategy
-            for command in self.commands:
-                response = command.process_message(telegram_response)
+                # # TODO: Change the command pattern for a strategy
+                # for command in self.commands:
+                #     response = command.process_message(telegram_message)
+                #     if response:
+                #         self.bot.sendMessage(user_id, response)
+                #         break
+                response = process_message(telegram_message)
                 if response:
                     self.bot.sendMessage(user_id, response)
-                    break
 
         except Exception as ex:
             ExceptionHandler.handle_exception(ex, False)
