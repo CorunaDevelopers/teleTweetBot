@@ -3,6 +3,7 @@
 
 from teleTweetBot.handlers.ExceptionHandler import ExceptionHandler
 
+
 # TODO
 class MentionsCommand:
     def __init__(self, twitter_api, bot):

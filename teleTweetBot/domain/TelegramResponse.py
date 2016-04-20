@@ -5,7 +5,7 @@ from TelegramResponseMessage import TelegramResponseMessage
 from teleTweetBot.handlers.ExceptionHandler import ExceptionHandler
 
 
-class TelegramResponse():
+class TelegramResponse:
     def __init__(self, content_type, chat_type, chat_id, message):
         try:
             self.chat_id = chat_id
