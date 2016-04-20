@@ -2,7 +2,7 @@
 # _*_ coding:utf-8 _*
 
 from TelegramResponseMessage import TelegramResponseMessage
-from ..handlers.ExceptionHandler import ExceptionHandler
+from teleTweetBot.handlers.ExceptionHandler import ExceptionHandler
 
 
 class TelegramResponse():

@@ -8,11 +8,11 @@ import time
 
 import telepot
 
-from commands.MessageHandler import process_message
 from config import BOT_TOKEN
 from handlers.ExceptionHandler import ExceptionHandler
 from handlers.TweepyHandler import TweepyHandler
-from src.domain.TelegramResponse import TelegramResponse
+from teleTweetBot.domain.TelegramResponse import TelegramResponse
+from teleTweetBot.handlers.TelegramMessageHandler import process_message
 
 
 class TeleTweetBot:
@@ -25,12 +25,6 @@ class TeleTweetBot:
         # Telegram
         self.bot = self.__get_telepot_instance()
         self.bot.notifyOnMessage(self.__handle_message)
-
-        # self.commands = [
-        #     TwitterCommand(self.twitterAPI),
-        #     StartCommand(self.users),
-        #     StopCommand(self.users),
-        # ]
 
     @staticmethod
     def __get_telepot_instance():
@@ -58,12 +52,6 @@ class TeleTweetBot:
                 print telegram_message.message.text
                 user_id = telegram_message.message.message_from.id
 
-                # # TODO: Change the command pattern for a strategy
-                # for command in self.commands:
-                #     response = command.process_message(telegram_message)
-                #     if response:
-                #         self.bot.sendMessage(user_id, response)
-                #         break
                 response = process_message(telegram_message)
                 if response:
                     self.bot.sendMessage(user_id, response)

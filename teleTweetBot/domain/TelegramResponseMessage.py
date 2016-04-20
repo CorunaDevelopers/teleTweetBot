@@ -4,7 +4,7 @@
 from TelegramResponseChat import TelegramResponseChat
 from TelegramResponseEntities import TelegramResponseEntities
 from TelegramResponseFrom import TelegramResponseFrom
-from ..handlers.ExceptionHandler import ExceptionHandler
+from teleTweetBot.handlers.ExceptionHandler import ExceptionHandler
 
 
 class TelegramResponseMessage:
