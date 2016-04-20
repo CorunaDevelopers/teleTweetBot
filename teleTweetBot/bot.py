@@ -20,7 +20,7 @@ class TeleTweetBot:
         self.users = []
 
         # Twitter
-        self.twitterAPI = TweepyHandler()
+        self.twitter_api = TweepyHandler()
 
         # Telegram
         self.bot = self.__get_telepot_instance()
@@ -52,7 +52,7 @@ class TeleTweetBot:
                 print telegram_message.message.text
                 user_id = telegram_message.message.message_from.id
 
-                response = process_message(telegram_message)
+                response = process_message(self.twitter_api, telegram_message)
                 if response:
                     self.bot.sendMessage(user_id, response)
 

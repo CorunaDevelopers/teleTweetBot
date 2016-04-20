@@ -4,7 +4,7 @@
 from teleTweetBot.handlers.ExceptionHandler import ExceptionHandler
 
 
-def process_message(telegram_message):
+def process_message(twitter_api, telegram_message):
     try:
         # TODO: Remove the user from somewhere
         # user_id = telegram_message.message.message_from.id
