@@ -14,9 +14,9 @@ from listeners.TwitterMentionsListener import TwitterMentionsListener
 class TweepyHandler(object):
     def __init__(self):
         try:
-            auth = tweepy.OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
-            auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
-            self.api = tweepy.API(auth)
+            self.__auth = tweepy.OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
+            self.__auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
+            self.api = tweepy.API(self.__auth)
         except Exception as ex:
             ExceptionHandler.handle_exception(ex, False)
 
@@ -37,7 +37,7 @@ class TweepyHandler(object):
         """
         try:
             listen = TwitterMentionsListener(self.api)
-            stream = tweepy.Stream(self.api, listen)
+            stream = tweepy.Stream(self.__auth, listen)
             stream.filter(track=users)
         except Exception as ex:
             ExceptionHandler.handle_exception(ex, False)
