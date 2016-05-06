@@ -21,7 +21,7 @@ class TeleTweetBot:
 
         # Twitter
         self.twitter_api = TweepyHandler()
-        self.twitter_api.open_stream("@telepaxaro_bot")
+        self.twitter_api.open_stream(["@telepaxaro_bot"])
 
         # Telegram
         self.bot = self.__get_telepot_instance()

@@ -31,10 +31,13 @@ class TweepyHandler(object):
         except Exception as ex:
             ExceptionHandler.handle_exception(ex, False)
 
-    def open_stream(self, search):
+    def open_stream(self, users):
         """
         Returns a stream
         """
-        listen = TwitterMentionsListener(self.api)
-        stream = self.api.Stream(self.auth, listen)
-        stream.filter(track = [search])
+        try:
+            listen = TwitterMentionsListener(self.api)
+            stream = tweepy.Stream(self.api, listen)
+            stream.filter(track=users)
+        except Exception as ex:
+            ExceptionHandler.handle_exception(ex, False)
