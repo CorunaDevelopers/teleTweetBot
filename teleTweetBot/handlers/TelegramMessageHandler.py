@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # _*_ coding:utf-8 _*
 
-from teleTweetBot.commands import StartCommand
-from teleTweetBot.commands import StopCommand
-from teleTweetBot.commands import TwitterCommand
+from commands import StartCommand
+from commands import StopCommand
+from commands import TwitterCommand
 
-from teleTweetBot.handlers.ExceptionHandler import ExceptionHandler
+from handlers.ExceptionHandler import ExceptionHandler
 
 COMMANDS = {
     '/start': StartCommand.process_message,

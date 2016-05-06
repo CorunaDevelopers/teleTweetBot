@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # _*_ coding:utf-8 _*
 
-from teleTweetBot.handlers.ExceptionHandler import ExceptionHandler
+from handlers.ExceptionHandler import ExceptionHandler
 
 
 class TelegramResponseChat:

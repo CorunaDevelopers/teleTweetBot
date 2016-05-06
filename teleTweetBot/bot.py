@@ -11,8 +11,8 @@ import telepot
 from config import BOT_TOKEN
 from handlers.ExceptionHandler import ExceptionHandler
 from handlers.TweepyHandler import TweepyHandler
-from teleTweetBot.domain.TelegramResponse import TelegramResponse
-from teleTweetBot.handlers.TelegramMessageHandler import process_message
+from domain.TelegramResponse import TelegramResponse
+from handlers.TelegramMessageHandler import process_message
 
 
 class TeleTweetBot:
