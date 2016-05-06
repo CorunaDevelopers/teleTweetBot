@@ -8,6 +8,7 @@ from config import TWITTER_ACCESS_TOKEN
 from config import TWITTER_CONSUMER_KEY
 from config import TWITTER_CONSUMER_SECRET
 from handlers.ExceptionHandler import ExceptionHandler
+from listeners.TwitterMentionsListener import TwitterMentionsListener
 
 
 class TweepyHandler(object):
@@ -29,3 +30,11 @@ class TweepyHandler(object):
             self.api.update_status(message)
         except Exception as ex:
             ExceptionHandler.handle_exception(ex, False)
+
+    def open_stream(self, search):
+        """
+        Returns a stream
+        """
+        listen = TwitterMentionsListener(self.api)
+        stream = self.api.Stream(self.auth, listen)
+        stream.filter(track = [search])
